@@ -59,8 +59,3 @@ collection_reviews = db.reviews
 # raw data shaping & insert DB
 df = pd.json_normalize(result["searchWorks"]["nodes"], ["reviews", "nodes"], ["annictId", "title", "titleKana", "watchersCount", "reviewsCount"])
 collection_reviews.insert_many(df.to_dict("records"))
-
-
-
-
-
