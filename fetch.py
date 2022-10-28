@@ -53,9 +53,9 @@ result = client.execute(query)
 
 # connect to MongoDB
 client = pymongo.MongoClient(MONGODB_API_KEY)
-db = client.raw_data
-collection_reviews = db.reviews
+db = client.reviews
+collection_raw_data = db.raw_data
 
 # raw data shaping & insert DB
 df = pd.json_normalize(result["searchWorks"]["nodes"], ["reviews", "nodes"], ["annictId", "title", "titleKana", "watchersCount", "reviewsCount"])
-collection_reviews.insert_many(df.to_dict("records"))
+collection_raw_data.insert_many(df.to_dict("records"))
