@@ -32,7 +32,7 @@ def train(data):
     model.fit(data, show_progress=True)
     return model
 
-def recommend_animes(annictIds: list, models) -> list:
+def recommend_animes(annictIds: list, models, annictIdList: list, df_pivot) -> list:
     user_like = lil_matrix((1, len(df_pivot.columns)))
     for i in annictIds:
         if i in annictIdList:
