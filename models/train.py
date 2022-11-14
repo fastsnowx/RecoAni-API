@@ -24,7 +24,7 @@ class Recommendation():
             reviewData = df_pivot.values
             reviewData = csr_matrix(reviewData)
 
-            return annictIdList, reviewData
+            return annictIdList, reviewData, df_pivot
 
         def train(data):
             model = implicit.als.AlternatingLeastSquares(factors=200, iterations=10)
