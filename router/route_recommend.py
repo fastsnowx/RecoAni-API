@@ -1,21 +1,19 @@
+from typing import List
 from fastapi import APIRouter
-from fastapi import Response, Request, HTTPException, Depends
+from fastapi import Response, Request, HTTPException, Depends, Query
 from schemas import SuccessMsg
 from models.train import Recommendation
 router = APIRouter()
 recommend = Recommendation()
-@router.get("/api/recommend/{id}") # WIP 複数のannictIdを入力したい
-def get_recommend_annictId(request: Request, id):
-    recommend_annictId, _ = recommend.recommend_animes([6059, 1113])
+@router.get("/api/recommend/")
+def get_recommend_annictId(request: Request, user_likes: List[int] = Query(None)):
+    recommend_annictId, reccomend_scores = recommend.recommend_animes(user_likes)
     return {
-        "items": [
+        "data": [
             {
-                "annictId": float(singleId),
+                "annictId": int(singleId),
+                "score": float(singleScore),
             }
-            for singleId in recommend_annictId
+            for singleId, singleScore in zip(recommend_annictId, reccomend_scores)
         ]
     }
-
-@router.get('/article/{id}')
-def get_article(id):
-    return {'message': f'article is {id}'}
