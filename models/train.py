@@ -6,16 +6,16 @@ from scipy.sparse import csr_matrix
 from scipy.sparse import lil_matrix
 from decouple import config
 
+# data持ってくるところ別のファイルでやりたい
+MONGODB_API_KEY = config("MONGODB_API_KEY")
+client = MongoClient(MONGODB_API_KEY)
+
+db = client.reviews
+collection_Overall = db.ratingOverallState
 class Recommendation():
     def __init__(self) -> None:
         
         def retrieve_and_preprocess():
-            # data持ってくるところ別のファイルでやりたい
-            MONGODB_API_KEY = config("MONGODB_API_KEY")
-            client = MongoClient(MONGODB_API_KEY)
-
-            db = client.reviews
-            collection_Overall = db.ratingOverallState
 
             # 前処理を別でやる？
             df = pd.DataFrame(list(collection_Overall.find()))
