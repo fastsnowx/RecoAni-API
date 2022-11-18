@@ -100,8 +100,3 @@ if __name__ == '__main__':
     delete_and_insert_collections(collection_Animation, df_Animation)
     delete_and_insert_collections(collection_Character, df_Character)
     print("successfully updated!🍩")
-
-
-
-
-
