@@ -14,4 +14,4 @@ class RecommendWorks(BaseModel):
     annictId: int
     score: float
 class AnimeInfo(BaseModel):
-    data: list[RecommendWorks]
+    data: List[RecommendWorks]
