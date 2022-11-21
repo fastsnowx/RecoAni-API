@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 from router import route_recommend
-from schemas import CsrfSettings
+from schemas import CsrfSettings, SuccessMsg
 app = FastAPI()
 app.include_router(route_recommend.router)
 
@@ -30,6 +30,6 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
                 }
 )
 
-@app.get("/")
+@app.get("/", response_model=SuccessMsg)
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Welcome to Annict recommend API"}

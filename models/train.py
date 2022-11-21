@@ -6,7 +6,6 @@ from scipy.sparse import csr_matrix
 from scipy.sparse import lil_matrix
 from decouple import config
 
-# data持ってくるところ別のファイルでやりたい
 MONGODB_API_KEY = config("MONGODB_API_KEY")
 client = MongoClient(MONGODB_API_KEY)
 
@@ -17,7 +16,6 @@ class Recommendation():
         
         def retrieve_and_preprocess():
 
-            # 前処理を別でやる？
             df = pd.DataFrame(list(collection_Overall.find()))
             df_pivot = df.pivot_table(index="id",columns="annictId",values="ratingOverallState").fillna(0)
             annictIdList = list(df_pivot.columns.values)
