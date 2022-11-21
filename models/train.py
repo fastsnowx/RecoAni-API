@@ -32,7 +32,7 @@ class Recommendation():
             return annictIdList, reviewData, columns_size
 
         def train(data):
-            model = implicit.als.AlternatingLea0stSquares(factors=200, iterations=10)
+            model = implicit.als.AlternatingLeastSquares(factors=200, iterations=10)
             model.fit(data, show_progress=True)
             return model
 
