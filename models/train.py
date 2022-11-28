@@ -10,13 +10,25 @@ MONGODB_API_KEY = config("MONGODB_API_KEY")
 client = MongoClient(MONGODB_API_KEY)
 
 db = client.reviews
-collection_Overall = db.ratingOverallState
+
 class Recommendation():
-    def __init__(self) -> None:
-        
-        def retrieve_and_preprocess():
+    def __init__(self, ratingState: str) -> None:
+        def retrieve_and_preprocess(ratingState):
+            if ratingState == "ratingOverallState":
+                collection = db.ratingOverallState
+            elif ratingState == "ratingStoryState":
+                collection = db.ratingStoryState
+            elif ratingState == "ratingMusicState":
+                collection = db.ratingMusicState
+            elif ratingState == "ratingCharacterState":
+                collection = db.ratingCharacterState
+            elif ratingState == "ratingAnimationState":
+                collection = db.ratingAnimationState
+            else:
+                raise AssertionError
+
             print("fetching")
-            df = pd.DataFrame(list(collection_Overall.find()))
+            df = pd.DataFrame(list(collection.find()))
             print("comp")
             user_id_categorical = pd.api.types.CategoricalDtype(categories=sorted(df.id.unique()), ordered=True)
             annictId_categorical = pd.api.types.CategoricalDtype(categories=sorted(df.annictId.unique()), ordered=True)
@@ -24,7 +36,7 @@ class Recommendation():
             col = df.annictId.astype(annictId_categorical).cat.codes
             annictIdList = list(sorted(df.annictId.unique()))
             reviewData = csr_matrix(
-                                (df["ratingOverallState"],
+                                (df[ratingState],
                                 (row, col)),
                                 shape=(user_id_categorical.categories.size, annictId_categorical.categories.size))
             columns_size = len(annictIdList)
@@ -36,7 +48,7 @@ class Recommendation():
             model.fit(data, show_progress=True)
             return model
 
-        self.annictIdList, reviewData, self.columns_size = retrieve_and_preprocess()
+        self.annictIdList, reviewData, self.columns_size = retrieve_and_preprocess(ratingState)
         self.model = train(reviewData)
 
     
