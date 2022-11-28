@@ -27,9 +27,7 @@ class Recommendation():
             else:
                 raise AssertionError
 
-            print("fetching")
             df = pd.DataFrame(list(collection.find()))
-            print("comp")
             user_id_categorical = pd.api.types.CategoricalDtype(categories=sorted(df.id.unique()), ordered=True)
             annictId_categorical = pd.api.types.CategoricalDtype(categories=sorted(df.annictId.unique()), ordered=True)
             row = df.id.astype(user_id_categorical).cat.codes
@@ -40,12 +38,13 @@ class Recommendation():
                                 (row, col)),
                                 shape=(user_id_categorical.categories.size, annictId_categorical.categories.size))
             columns_size = len(annictIdList)
-            print("pleted")
+            print("preprocess ended.")
             return annictIdList, reviewData, columns_size
 
         def train(data):
             model = implicit.als.AlternatingLeastSquares(factors=200, iterations=10)
             model.fit(data, show_progress=True)
+            print("training ended.")
             return model
 
         self.annictIdList, reviewData, self.columns_size = retrieve_and_preprocess(ratingState)
