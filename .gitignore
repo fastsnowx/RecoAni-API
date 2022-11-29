@@ -1,5 +1,6 @@
 # added
 .tmp
+.deta
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

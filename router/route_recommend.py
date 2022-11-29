@@ -4,11 +4,11 @@ from fastapi import Response, Request, HTTPException, Depends, Query
 from schemas import AnimeInfo
 from models.train import Recommendation
 router = APIRouter()
-recommendOverall = Recommendation("ratingOverallState")
-recommendStory = Recommendation("ratingStoryState")
-recommendMusic = Recommendation("ratingMusicState")
-recommendCharacter = Recommendation("ratingCharacterState")
-recommendAnimation = Recommendation("ratingAnimationState")
+recommendOverall = Recommendation(ratingState="ratingOverallState")
+recommendStory = Recommendation(ratingState="ratingStoryState")
+recommendMusic = Recommendation(ratingState="ratingMusicState")
+recommendCharacter = Recommendation(ratingState="ratingCharacterState")
+recommendAnimation = Recommendation(ratingState="ratingAnimationState")
 
 @router.get("/api/recommend/overall", response_model=AnimeInfo)
 def get_recommend_overall(request: Request, user_likes: List[int] = Query(None)):
