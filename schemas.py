@@ -15,3 +15,9 @@ class RecommendWorks(BaseModel):
     score: float
 class AnimeInfo(BaseModel):
     data: List[RecommendWorks]
+
+class GetUrl(BaseModel):
+    url: str
+
+class AnimeUrl(BaseModel):
+    data: List[GetUrl]
