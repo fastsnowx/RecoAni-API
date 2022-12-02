@@ -3,11 +3,11 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
-from router import route_recommend,route_geturl
+from router import route_recommend, route_malItems
 from schemas import CsrfSettings, SuccessMsg
 app = FastAPI()
 app.include_router(route_recommend.router)
-app.include_router(route_geturl.router)
+app.include_router(route_malItems.router)
 
 origins = ["http://localhost:3000", "http://localhost:3000"]
 
