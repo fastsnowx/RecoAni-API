@@ -1,14 +1,14 @@
 from typing import List
 from fastapi import APIRouter
 from fastapi import Request
-from schemas import MyAnimeListImage, MyAnimeListPV
+from schemas import MyAnimeListImageInfo, MyAnimeListPVInfo
 from decouple import config
 import requests
 
 router = APIRouter()
 MAL_API_KEY = config("MAL_API_KEY")
 
-@router.get("/api/mal/image", response_model=MyAnimeListImage)
+@router.get("/api/mal/image", response_model=MyAnimeListImageInfo)
 def get_mal_image_url(request: Request, malAnimeId: str):
     header = {
             "X-MAL-CLIENT-ID":MAL_API_KEY,
@@ -27,7 +27,7 @@ def get_mal_image_url(request: Request, malAnimeId: str):
         ]
     }
 
-@router.get("/api/mal/pv", response_model=MyAnimeListPV)
+@router.get("/api/mal/pv", response_model=MyAnimeListPVInfo)
 def get_mal_pv_url(request: Request, malAnimeId: str):
     header = {
             "X-MAL-CLIENT-ID":MAL_API_KEY,

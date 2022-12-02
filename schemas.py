@@ -13,14 +13,14 @@ class SuccessMsg(BaseModel):
 class RecommendWorks(BaseModel):
     annictId: int
     score: float
-class AnimeInfo(BaseModel):
+class RecommendAnimeInfo(BaseModel):
     data: List[RecommendWorks]
 
 class MyAnimeListWorks(BaseModel):
     url: str
 
-class MyAnimeListImage(BaseModel):
+class MyAnimeListImageInfo(BaseModel):
     data: List[MyAnimeListWorks]
 
-class MyAnimeListPV(BaseModel):
+class MyAnimeListPVInfo(BaseModel):
     data: List[MyAnimeListWorks]
