@@ -16,8 +16,11 @@ class RecommendWorks(BaseModel):
 class AnimeInfo(BaseModel):
     data: List[RecommendWorks]
 
-class GetUrl(BaseModel):
+class MyAnimeListWorks(BaseModel):
     url: str
 
-class AnimeUrl(BaseModel):
-    data: List[GetUrl]
+class MyAnimeListImage(BaseModel):
+    data: List[MyAnimeListWorks]
+
+class MyAnimeListPV(BaseModel):
+    data: List[MyAnimeListWorks]
