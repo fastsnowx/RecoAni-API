@@ -19,11 +19,11 @@ def get_mal_image_url(request: Request, malAnimeId: str):
     }
     url = f"https://api.myanimelist.net/v2/anime/{malAnimeId}"
     response = requests.get(url, headers=header, params=param)
-    if response.json()["main_picture"]["large"]:
+    if "main_picture" in response.json().keys():
         return {"data": [{"url": str(response.json()["main_picture"]["large"])}]}
     else:
         raise HTTPException(
-            status_code=404, detail=f"Image id={malAnimeId} is not found"
+            status_code=404, detail=f"Image not found"
         )
 
 
@@ -38,11 +38,11 @@ def get_mal_pv_url(request: Request, malAnimeId: str):
     }
     url = f"https://api.myanimelist.net/v2/anime/{malAnimeId}"
     response = requests.get(url, headers=header, params=param)
-    if response.json()["videos"]:
+    if "videos" in response.json().keys():
         return {
             "data": [
                 {"url": str(pvinfo["url"])} for pvinfo in response.json()["videos"]
             ]
         }
     else:
-        raise HTTPException(status_code=404, detail=f"PV id={malAnimeId} is not found")
+        raise HTTPException(status_code=404, detail=f"PV not found")
