@@ -5,12 +5,14 @@ from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 from router import route_recommend, route_malItems
 from schemas import CsrfSettings, SuccessMsg
+from decouple import config
 
+RECOANI_WEB_URL = config("RECOANI_WEB_URL")
 app = FastAPI()
 app.include_router(route_recommend.router)
 app.include_router(route_malItems.router)
 
-origins = ["http://localhost:3000",]
+origins = ["http://localhost:3000", RECOANI_WEB_URL]
 
 app.add_middleware(
     CORSMiddleware,
