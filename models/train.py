@@ -1,4 +1,3 @@
-# %%
 import implicit
 from pymongo import MongoClient
 import pandas as pd
@@ -11,7 +10,8 @@ client = MongoClient(MONGODB_API_KEY)
 
 db = client.reviews
 
-class Recommendation():
+
+class Recommendation:
     def __init__(self, ratingState: str) -> None:
         def retrieve_and_preprocess(ratingState):
             if ratingState == "ratingOverallState":
@@ -28,29 +28,37 @@ class Recommendation():
                 raise AssertionError
 
             df = pd.DataFrame(list(collection.find()))
-            user_id_categorical = pd.api.types.CategoricalDtype(categories=sorted(df.id.unique()), ordered=True)
-            annictId_categorical = pd.api.types.CategoricalDtype(categories=sorted(df.annictId.unique()), ordered=True)
+            user_id_categorical = pd.api.types.CategoricalDtype(
+                categories=sorted(df.id.unique()), ordered=True
+            )
+            annictId_categorical = pd.api.types.CategoricalDtype(
+                categories=sorted(df.annictId.unique()), ordered=True
+            )
             row = df.id.astype(user_id_categorical).cat.codes
             col = df.annictId.astype(annictId_categorical).cat.codes
             annictIdList = list(sorted(df.annictId.unique()))
             reviewData = csr_matrix(
-                                (df[ratingState],
-                                (row, col)),
-                                shape=(user_id_categorical.categories.size, annictId_categorical.categories.size))
+                (df[ratingState], (row, col)),
+                shape=(
+                    user_id_categorical.categories.size,
+                    annictId_categorical.categories.size,
+                ),
+            )
             columns_size = len(annictIdList)
-            print("preprocess ended.")
             return annictIdList, reviewData, columns_size
 
         def train(data):
+            print("training models ...")
             model = implicit.als.AlternatingLeastSquares(factors=200, iterations=10)
             model.fit(data, show_progress=True)
             print("training ended.")
             return model
 
-        self.annictIdList, reviewData, self.columns_size = retrieve_and_preprocess(ratingState)
+        self.annictIdList, reviewData, self.columns_size = retrieve_and_preprocess(
+            ratingState
+        )
         self.model = train(reviewData)
 
-    
     def recommend_animes(self, annictIds):
         user_like = lil_matrix((1, self.columns_size))
         for i in annictIds:
@@ -62,7 +70,7 @@ class Recommendation():
             user_like.tocsr(),
             N=10,
             recalculate_user=True,
-            )
+        )
 
         reccomend_ids = [self.annictIdList[i] for i in recommend_index]
         return reccomend_ids, reccomend_scores

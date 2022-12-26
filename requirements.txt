@@ -14,3 +14,4 @@ sklearn
 uvicorn
 gunicorn
 implicit
+requests
