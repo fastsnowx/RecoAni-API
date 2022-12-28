@@ -19,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/", response_model=SuccessMsg)
 async def root():
     return {"message": "Welcome to Annict recommend API"}
