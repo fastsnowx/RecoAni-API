@@ -23,16 +23,6 @@ app.add_middleware(
 )
 
 
-@CsrfProtect.load_config
-def get_csrf_config():
-    return CsrfSettings()
-
-
-@app.exception_handler(CsrfProtectError)
-def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-    return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
-
-
 @app.get("/", response_model=SuccessMsg)
 async def root():
     return {"message": "Welcome to Annict recommend API"}
