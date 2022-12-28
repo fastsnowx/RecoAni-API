@@ -9,9 +9,6 @@ pymongo
 python-decouple
 scikit-learn
 scipy
-six
-sklearn
 uvicorn
 gunicorn
 implicit
-requests
