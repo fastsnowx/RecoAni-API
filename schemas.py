@@ -1,13 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
-from decouple import config
-
-CSRF_KEY = config("CSRF_KEY")
-
-
-class CsrfSettings(BaseModel):
-    secret_key: str = CSRF_KEY
-
+from typing import List
 
 class SuccessMsg(BaseModel):
     message: str
