@@ -26,7 +26,7 @@ access `/docs` to get more infomation.
 ```
 ANNICT_API_TOKEN_ :Annictのtoken
 MONGODB_API_TOKEN_ : MongoDBのtoken
-MAL_API_TOKEN_ : MyAnimeListのtoken
+MAL_API_TOKEN : MyAnimeListのtoken
 REDIS_UPSTASH_TOKEN : Upstash(redis)のtoken
 ```
 ## 🚀実行
