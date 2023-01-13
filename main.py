@@ -1,11 +1,12 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi_csrf_protect import CsrfProtect
-from fastapi_csrf_protect.exceptions import CsrfProtectError
 from router import route_recommend, route_malItems
-from schemas import CsrfSettings, SuccessMsg
+from schemas import SuccessMsg
 from decouple import config
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+from redis import asyncio as aioredis
 
 RECOANI_WEB_URL = config("RECOANI_WEB_URL")
 app = FastAPI()
@@ -23,6 +24,20 @@ app.add_middleware(
 )
 
 
+@cache()
+async def get_cache():
+    return 1
+
+
 @app.get("/", response_model=SuccessMsg)
+@cache(expire=60)
 async def root():
     return {"message": "Welcome to Annict recommend API"}
+
+
+@app.on_event("startup")
+async def startup():
+    redis = aioredis.from_url(
+        config("REDIS_UPSTASH_TOKEN"), encoding="utf8", decode_responses=True
+    )
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
