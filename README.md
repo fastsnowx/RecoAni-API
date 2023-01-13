@@ -37,6 +37,7 @@ REDIS_UPSTASH_TOKEN : Upstash(redis)のtoken
 - `uvicorn main:app --reload`
 
 ## 👥 contributors
+<table>
   <tbody>
     <tr>
       <td align="center"><a href="https://github.com/re-nan6"><img src="https://avatars.githubusercontent.com/u/67001442?v=4" width="100px;" alt="re-nan6"/><br /><sub><b>re-nan6</b></sub></a><br /><a href="https://github.com/re-nan6/RecoAni/commits?author=re-nan6" title="Code">💻</a></td>
