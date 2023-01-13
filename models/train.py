@@ -5,8 +5,8 @@ from scipy.sparse import csr_matrix
 from scipy.sparse import lil_matrix
 from decouple import config
 
-MONGODB_API_KEY = config("MONGODB_API_KEY")
-client = MongoClient(MONGODB_API_KEY)
+MONGODB_API_TOKEN = config("MONGODB_API_TOKEN")
+client = MongoClient(MONGODB_API_TOKEN)
 
 db = client.reviews
 

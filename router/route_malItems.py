@@ -6,14 +6,14 @@ import requests
 from fastapi_cache.decorator import cache
 
 router = APIRouter()
-MAL_API_KEY = config("MAL_API_KEY")
+MAL_API_TOKEN = config("MAL_API_TOKEN")
 
 
 @router.get("/api/mal/image", response_model=MyAnimeListImageInfo)
 @cache(expire=60 * 60 * 12)
 def get_mal_image_url(request: Request, malAnimeId: str):
     header = {
-        "X-MAL-CLIENT-ID": MAL_API_KEY,
+        "X-MAL-CLIENT-ID": MAL_API_TOKEN,
     }
     param = {
         "anime_id": malAnimeId,
@@ -31,7 +31,7 @@ def get_mal_image_url(request: Request, malAnimeId: str):
 @cache(expire=60 * 60 * 12)
 def get_mal_pv_url(request: Request, malAnimeId: str):
     header = {
-        "X-MAL-CLIENT-ID": MAL_API_KEY,
+        "X-MAL-CLIENT-ID": MAL_API_TOKEN,
     }
     param = {
         "anime_id": malAnimeId,
