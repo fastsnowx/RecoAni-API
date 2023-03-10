@@ -24,8 +24,8 @@ access `/docs` to get more infomation.
 
 ## 🔒環境変数
 ```
-ANNICT_API_TOKEN_ :Annictのtoken
-MONGODB_API_TOKEN_ : MongoDBのtoken
+ANNICT_API_TOKEN :Annictのtoken
+MONGODB_API_TOKEN : MongoDBのtoken
 MAL_API_TOKEN : MyAnimeListのtoken
 REDIS_UPSTASH_TOKEN : Upstash(redis)のtoken
 ```
