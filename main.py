@@ -1,12 +1,13 @@
+from decouple import config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from router import route_recommend, route_malItems
-from schemas import SuccessMsg
-from decouple import config
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
+
+from router import route_malItems, route_recommend
+from schemas import SuccessMsg
 
 RECOANI_WEB_URL = config("RECOANI_WEB_URL")
 app = FastAPI()
