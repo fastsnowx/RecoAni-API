@@ -1,23 +1,23 @@
-from decouple import config
-import pymongo
 from pprint import pprint
-from gql import gql, Client
-from gql.transport.aiohttp import AIOHTTPTransport
+
 import pandas as pd
+import pymongo
+from decouple import config
+from gql import Client, gql
+from gql.transport.aiohttp import AIOHTTPTransport
 
-
-MONGODB_API_KEY = config("MONGODB_API_KEY")
-ANNICT_API_KEY = config("ANNICT_API_KEY")
+MONGODB_API_TOKEN = config("MONGODB_API_TOKEN")
+ANNICT_API_TOKEN = config("ANNICT_API_TOKEN")
 ANNICT_API_URL = "https://api.annict.com/graphql"
 
 # connect MongoDB
-client = pymongo.MongoClient(MONGODB_API_KEY)
+client = pymongo.MongoClient(MONGODB_API_TOKEN)
 db = client.reviews
 
 # Select your transport with a defined url endpoint
 headers = {
     "Content-type": "application/json",
-    "Authorization": f"Bearer {ANNICT_API_KEY}",
+    "Authorization": f"Bearer {ANNICT_API_TOKEN}",
 }
 transport = AIOHTTPTransport(url=ANNICT_API_URL, headers=headers)
 
