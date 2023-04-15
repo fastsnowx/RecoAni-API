@@ -1,8 +1,7 @@
 import implicit
-from pymongo import MongoClient
-from scipy.sparse import csr_matrix
-from scipy.sparse import lil_matrix
 from decouple import config
+from pymongo import MongoClient
+from scipy.sparse import csr_matrix, lil_matrix
 
 MONGODB_API_TOKEN = config("MONGODB_API_TOKEN")
 client = MongoClient(MONGODB_API_TOKEN)
@@ -30,19 +29,21 @@ class Recommendation:
             user_id_set = set()
             annict_id_set = set()
             for review in reviews:
-                user_id_set.add(review['id'])
-                annict_id_set.add(review['annictId'])
+                user_id_set.add(review["id"])
+                annict_id_set.add(review["annictId"])
 
             user_id_list = sorted(list(user_id_set))
             annict_id_list = sorted(list(annict_id_set))
 
             row, col, data = [], [], []
             for review in reviews:
-                row.append(user_id_list.index(review['id']))
-                col.append(annict_id_list.index(review['annictId']))
+                row.append(user_id_list.index(review["id"]))
+                col.append(annict_id_list.index(review["annictId"]))
                 data.append(review[ratingState])
 
-            reviewData = csr_matrix((data, (row, col)), shape=(len(user_id_list), len(annict_id_list)))
+            reviewData = csr_matrix(
+                (data, (row, col)), shape=(len(user_id_list), len(annict_id_list))
+            )
 
             columns_size = len(annict_id_list)
             return annict_id_list, reviewData, columns_size

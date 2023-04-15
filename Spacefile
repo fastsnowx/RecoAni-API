@@ -6,3 +6,10 @@ micros:
     engine: python3.9
     primary: true
     public: true
+    presets:
+      env:
+        - name: "ANNICT_API_TOKEN"
+        - name: "MONGODB_API_TOKEN"
+        - name: "MAL_API_TOKEN"
+        - name: "REDIS_UPSTASH_TOKEN"
+        - name: "RECOANI_WEB_URL"
