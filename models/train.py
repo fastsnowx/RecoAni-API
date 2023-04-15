@@ -1,6 +1,5 @@
 import implicit
 from pymongo import MongoClient
-import pandas as pd
 from scipy.sparse import csr_matrix
 from scipy.sparse import lil_matrix
 from decouple import config
@@ -27,25 +26,26 @@ class Recommendation:
             else:
                 raise AssertionError
 
-            df = pd.DataFrame(list(collection.find()))
-            user_id_categorical = pd.api.types.CategoricalDtype(
-                categories=sorted(df.id.unique()), ordered=True
-            )
-            annictId_categorical = pd.api.types.CategoricalDtype(
-                categories=sorted(df.annictId.unique()), ordered=True
-            )
-            row = df.id.astype(user_id_categorical).cat.codes
-            col = df.annictId.astype(annictId_categorical).cat.codes
-            annictIdList = list(sorted(df.annictId.unique()))
-            reviewData = csr_matrix(
-                (df[ratingState], (row, col)),
-                shape=(
-                    user_id_categorical.categories.size,
-                    annictId_categorical.categories.size,
-                ),
-            )
-            columns_size = len(annictIdList)
-            return annictIdList, reviewData, columns_size
+            reviews = list(collection.find())
+            user_id_set = set()
+            annict_id_set = set()
+            for review in reviews:
+                user_id_set.add(review['id'])
+                annict_id_set.add(review['annictId'])
+
+            user_id_list = sorted(list(user_id_set))
+            annict_id_list = sorted(list(annict_id_set))
+
+            row, col, data = [], [], []
+            for review in reviews:
+                row.append(user_id_list.index(review['id']))
+                col.append(annict_id_list.index(review['annictId']))
+                data.append(review[ratingState])
+
+            reviewData = csr_matrix((data, (row, col)), shape=(len(user_id_list), len(annict_id_list)))
+
+            columns_size = len(annict_id_list)
+            return annict_id_list, reviewData, columns_size
 
         def train(data):
             print("training models ...")
@@ -65,12 +65,12 @@ class Recommendation:
             if i in self.annictIdList:
                 user_like[(0, self.annictIdList.index(i))] = 2.0
 
-        recommend_index, reccomend_scores = self.model.recommend(
+        recommend_index, recommend_scores = self.model.recommend(
             0,
             user_like.tocsr(),
             N=10,
             recalculate_user=True,
         )
 
-        reccomend_ids = [self.annictIdList[i] for i in recommend_index]
-        return reccomend_ids, reccomend_scores
+        recommend_ids = [self.annictIdList[i] for i in recommend_index]
+        return recommend_ids, recommend_scores
