@@ -1,5 +1,5 @@
-import implicit
 from decouple import config
+from implicit import als
 from pymongo import MongoClient
 from scipy.sparse import csr_matrix, lil_matrix
 
@@ -50,7 +50,7 @@ class Recommendation:
 
         def train(data):
             print("training models ...")
-            model = implicit.als.AlternatingLeastSquares(factors=200, iterations=10)
+            model = als.AlternatingLeastSquares(factors=200, iterations=10)
             model.fit(data, show_progress=True)
             print("training ended.")
             return model
