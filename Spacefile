@@ -6,6 +6,8 @@ micros:
     engine: python3.9
     primary: true
     public: true
+    commands:
+      - find /usr -type f -name "libgomp1"
     presets:
       env:
         - name: "ANNICT_API_TOKEN"
@@ -13,3 +15,5 @@ micros:
         - name: "MAL_API_TOKEN"
         - name: "REDIS_UPSTASH_TOKEN"
         - name: "RECOANI_WEB_URL"
+        - name: "OPENBLAS_NUM_THREADS"
+          default: "1"
