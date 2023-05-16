@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "recoani_api"}]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.8,<4.0"
 fastapi = "^0.95.1"
 fastapi-cache2 = "^0.2.1"
 pymongo = "^4.3.3"
